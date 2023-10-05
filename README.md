@@ -6,6 +6,12 @@ This is a Laravel project within imagine assignments to build a book store.
 
 Includes the ability to add books and place them in the purchase cart and order them, taking into account the security factors and errors Handling and execution as efficiently as possible.
 
+## Package User
+
+✅ JWT
+<br>
+✅ Spatie for Roles & Permissions
+
 ## Installation
 
 1. Clone the repository:

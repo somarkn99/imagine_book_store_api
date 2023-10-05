@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
 {
@@ -22,19 +23,24 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $perPage = request('per_page', 10); // Number of items per page (default is 10)
+        try {
+            $perPage = request('per_page', 10); // Number of items per page (default is 10)
 
-        $orders = Order::where('user_id', Auth::user()->id) // Assuming 'user_id' is the foreign key for the user
-            ->with('books')
-            ->paginate($perPage);
+            $orders = Order::where('user_id', Auth::user()->id)
+                ->with('books')
+                ->paginate($perPage);
 
-        $orders = Order::where('id', Auth::user()->id)->with('books')->get();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => trans('general.get'),
-            'data' => $orders,
-        ], 200);
+            return response()->json([
+                'status' => 'success',
+                'message' => trans('general.get'),
+                'data' => $orders,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -42,32 +48,45 @@ class OrderController extends Controller
      */
     public function store(CreateNewOrderRequest $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $cart = Cart::where('id', $data['cart_id'])->with('book')->first();
+            $cart = Cart::where('id', $data['cart_id'])->with('book')->first();
 
-        $total_price = $cart->qty * $cart->book->price;
+            if (!$cart) {
+                throw new ModelNotFoundException('Cart not found');
+            }
 
-        DB::beginTransaction();
+            $total_price = $cart->qty * $cart->book->price;
 
-        Order::create([
-            'user_id' => Auth::user()->id,
-            'book_id' => $cart->book_id,
-            'qty' => $cart->qty,
-            'total_price' => $total_price,
-        ]);
+            DB::beginTransaction();
 
-        $cart->delete();
+            Order::create([
+                'user_id' => Auth::user()->id,
+                'book_id' => $cart->book_id,
+                'qty' => $cart->qty,
+                'total_price' => $total_price,
+            ]);
 
-        Book::where('id', $cart->book->id)->update([
-            'stock' => $cart->book->stock - $cart->qty,
-        ]);
+            $cart->delete();
 
-        DB::commit();
+            Book::where('id', $cart->book->id)->update([
+                'stock' => $cart->book->stock - $cart->qty,
+            ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => trans('general.store'),
-        ], 201);
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => trans('general.store'),
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
