@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        // Assign only to specific methods in this Controller
+        $this->middleware(['auth:api', 'CheckQty'])->only('store');
+    }
+
     /**
      * Display a listing of the resource.
      */
