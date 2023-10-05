@@ -48,3 +48,14 @@ Route::apiResource('cart', CartController::class)->middleware('auth:api');
 |
 */
 Route::apiResource('order', OrderController::class)->middleware('auth:api');
+
+
+
+
+
+
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'You have probably written something wrong !',
+    ], 404);
+});
