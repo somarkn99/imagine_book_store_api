@@ -6,7 +6,6 @@ use App\Http\Requests\Order\CreateNewOrderRequest;
 use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -55,7 +54,7 @@ class OrderController extends Controller
         $cart->delete();
 
         Book::where('id', $cart->book->id)->update([
-            'stock' => $cart->book->stock - $cart->qty
+            'stock' => $cart->book->stock - $cart->qty,
         ]);
 
         DB::commit();
@@ -65,28 +64,4 @@ class OrderController extends Controller
             'message' => trans('general.store'),
         ], 201);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    // public function show(Order $order)
-    // {
-    //     //
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, Order $order)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(Order $order)
-    // {
-    //     //
-    // }
 }

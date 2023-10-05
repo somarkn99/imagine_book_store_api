@@ -5,7 +5,6 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchBookController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //  API Routes
@@ -48,11 +47,6 @@ Route::apiResource('cart', CartController::class)->middleware('auth:api');
 |
 */
 Route::apiResource('order', OrderController::class)->middleware('auth:api');
-
-
-
-
-
 
 Route::fallback(function () {
     return response()->json([

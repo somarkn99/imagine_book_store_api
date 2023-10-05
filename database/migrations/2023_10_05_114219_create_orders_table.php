@@ -21,7 +21,6 @@ return new class extends Migration
             $table->index('book_id');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
 
-
             $table->integer('qty');
             $table->double('total_price');
 

@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Cart\AddToCartRequest;
 use App\Http\Requests\Cart\UpdateCartRequest;
 use App\Models\Cart;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CartController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -41,14 +40,6 @@ class CartController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    // public function show(Cart $cart)
-    // {
-    //     //
-    // }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCartRequest $request, Cart $cart)
@@ -67,7 +58,6 @@ class CartController extends Controller
         $fieldsToUpdate = array_filter($data, function ($key) use ($request, $cart, $data) {
             return $request->has($key) && $cart->{$key} !== $data[$key];
         }, ARRAY_FILTER_USE_KEY);
-
 
         // Update the book with the selected fields
         $cart->update($fieldsToUpdate);
@@ -91,7 +81,6 @@ class CartController extends Controller
                 'message' => trans('general.notAllowed'),
             ], 403); // HTTP status code for forbidden access
         }
-
 
         $cart->delete();
 

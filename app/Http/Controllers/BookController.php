@@ -6,7 +6,6 @@ use App\Http\Requests\Books\StoreBookRequest;
 use App\Http\Requests\Books\UpdateBookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
@@ -82,6 +81,7 @@ class BookController extends Controller
                 // Handle cover image update separately
                 return $request->has('cover');
             }
+
             return $request->has($key) && $book->{$key} !== $data[$key];
         }, ARRAY_FILTER_USE_KEY);
 
@@ -99,6 +99,7 @@ class BookController extends Controller
             'message' => trans('general.update'),
         ], 200);
     }
+
     /**
      * Remove the specified resource from storage.
      */

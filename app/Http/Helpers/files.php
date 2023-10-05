@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
-if (!function_exists('UploadFile')) {
+if (! function_exists('UploadFile')) {
     function UploadFile($file, $folder)
     {
         //get file name with extention
@@ -15,15 +15,15 @@ if (!function_exists('UploadFile')) {
         //GET EXTENTION
         $extention = $file->getClientOriginalExtension();
         //file name to store
-        $fileNameToStore = $folder . '/' . $filename . '_' . time() . '.' . $extention;
+        $fileNameToStore = $folder.'/'.$filename.'_'.time().'.'.$extention;
         //upload image
-        $path = $file->storeAs($folder, $filename . '_' . time() . '.' . $extention, ['disk' => 'public']);
+        $path = $file->storeAs($folder, $filename.'_'.time().'.'.$extention, ['disk' => 'public']);
 
         return $fileNameToStore;
     }
 }
 
-if (!function_exists('UpdateFile')) {
+if (! function_exists('UpdateFile')) {
     function UpdateFile($file, $path, $oldFile)
     {
         Delete_File($oldFile);
@@ -33,7 +33,7 @@ if (!function_exists('UpdateFile')) {
     }
 }
 
-if (!function_exists('Delete_File')) {
+if (! function_exists('Delete_File')) {
     function Delete_File($path)
     {
         // Parse the URL
@@ -49,20 +49,22 @@ if (!function_exists('Delete_File')) {
             throw new InvalidArgumentException('Empty path');
         }
 
-        $fullPath = public_path('storage/' . $desiredPart);
+        $fullPath = public_path('storage/'.$desiredPart);
 
         // Check if the file exists before attempting to delete
-        if (!file_exists($fullPath)) {
+        if (! file_exists($fullPath)) {
             throw new FileNotFoundException('File not found');
         }
 
         // Attempt to delete the file using try-catch
         try {
             unlink($fullPath);
+
             return true;
         } catch (\Exception $e) {
             // Log the error or handle it as needed
             Log::error($e);
+
             return false;
         }
     }

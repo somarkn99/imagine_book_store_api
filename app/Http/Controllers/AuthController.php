@@ -23,7 +23,7 @@ class AuthController extends Controller
         try {
             $credentials = $request->only('email', 'password');
 
-            if (!$token = Auth::attempt($credentials)) {
+            if (! $token = Auth::attempt($credentials)) {
                 throw new UnauthorizedException('Unauthorized');
             }
 
@@ -82,6 +82,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         Auth::logout();
+
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged out',
@@ -92,7 +93,7 @@ class AuthController extends Controller
     {
         try {
             $user = Auth::user();
-            if (!$user) {
+            if (! $user) {
                 throw new UserNotFoundException('User not found');
             }
 

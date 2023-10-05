@@ -20,10 +20,10 @@ class SearchBookController extends Controller
         // Query the books based on the search criteria
         $books = Book::query()
             ->when($title, function ($query) use ($title) {
-                $query->where('title', 'like', '%' . $title . '%');
+                $query->where('title', 'like', '%'.$title.'%');
             })
             ->orWhere(function ($query) use ($author) {
-                $query->where('author', 'like', '%' . $author . '%');
+                $query->where('author', 'like', '%'.$author.'%');
             })
             ->orWhere(function ($query) use ($genre) {
                 $query->where('genre', $genre);

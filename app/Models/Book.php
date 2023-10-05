@@ -27,7 +27,7 @@ class Book extends Model
         }
 
         // Prepend APP_URL if 'cover' doesn't start with 'http' or 'https'
-        return config('app.url') . '/' . $value;
+        return config('app.url').'/'.$value;
     }
 
     public static function filterByGenreAndAuthor($genre, $author)

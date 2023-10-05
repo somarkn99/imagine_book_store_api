@@ -22,7 +22,7 @@ class CreateNewOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cart_id' => 'required|exists:carts,id|integer'
+            'cart_id' => 'required|exists:carts,id|integer',
         ];
     }
 }
