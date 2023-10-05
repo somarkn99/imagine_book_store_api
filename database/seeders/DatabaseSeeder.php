@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\Book;
 use App\Models\Cart;
+use Database\Seeders\Roles\AdminSeeder;
+use Database\Seeders\Roles\PermissionsSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,5 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         Book::factory(10)->create();
         Cart::factory(5)->create();
+        $this->call(PermissionsSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }
