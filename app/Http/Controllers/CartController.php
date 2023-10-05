@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Cart\AddToCartRequest;
 use App\Http\Requests\Cart\UpdateCartRequest;
 use App\Models\Cart;
+use App\Services\CartService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -12,13 +13,20 @@ use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
+    private $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         try {
-            $cart = Cart::where('user_id', Auth::user()->id)->with('book')->get();
+            $cart = $this->cartService->getUserCart();
 
             return response()->json([
                 'status' => 'success',
@@ -40,8 +48,7 @@ class CartController extends Controller
     {
         try {
             $data = $request->validated();
-            $data['user_id'] = Auth::user()->id;
-            Cart::create($data);
+            $this->cartService->addToCart($data);
 
             return response()->json([
                 'status' => 'success',
@@ -70,15 +77,9 @@ class CartController extends Controller
             }
 
             $data = $request->validated();
+            $this->cartService->updateCart($cart, $data, $request);
 
             // Only update the fields that have changed in the request
-            $fieldsToUpdate = array_filter($data, function ($key) use ($request, $cart, $data) {
-                return $request->has($key) && $cart->{$key} !== $data[$key];
-            }, ARRAY_FILTER_USE_KEY);
-
-            // Update the cart with the selected fields
-            $cart->update($fieldsToUpdate);
-
             return response()->json([
                 'status' => 'success',
                 'message' => trans('general.update'),
