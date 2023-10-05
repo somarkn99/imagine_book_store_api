@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        // Assign only to specific methods in this Controller
+        $this->middleware(['auth:api', 'permission:Add-Book'])->only('store');
+        $this->middleware(['auth:api', 'permission:Update-Book'])->only('update');
+        $this->middleware(['auth:api', 'permission:Delete-Book'])->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */

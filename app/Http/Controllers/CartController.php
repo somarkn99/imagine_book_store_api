@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Cart\AddToCartRequest;
 use App\Http\Requests\Cart\UpdateCartRequest;
 use App\Models\Cart;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -53,6 +53,14 @@ class CartController extends Controller
      */
     public function update(UpdateCartRequest $request, Cart $cart)
     {
+        // Ensure the user is authorized to perform the update
+        if (Gate::denies('update', $cart)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => trans('general.notAllowed'),
+            ], 403); // HTTP status code for forbidden access
+        }
+
         $data = $request->validated();
 
         // Only update the fields that have changed in the request
@@ -75,6 +83,16 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
+        // Check if the user is authorized to update the address
+        if (Gate::denies('delete', $cart)) {
+            // Handle unauthorized access with a JSON response
+            return response()->json([
+                'status' => 'error',
+                'message' => trans('general.notAllowed'),
+            ], 403); // HTTP status code for forbidden access
+        }
+
+
         $cart->delete();
 
         return response()->json([], 202);
