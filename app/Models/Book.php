@@ -45,7 +45,7 @@ class Book extends Model
         // Select specific columns
         $query->select('id', 'title', 'cover', 'created_at');
 
-        return $query->get();
+        return $query;
     }
 
     public function carts()

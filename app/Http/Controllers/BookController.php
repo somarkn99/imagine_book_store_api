@@ -20,8 +20,11 @@ class BookController extends Controller
         $author = $request->query('author');
 
         // Use the custom method in the model to filter books
-        $books = Book::filterByGenreAndAuthor($genre, $author);
+        $query = Book::filterByGenreAndAuthor($genre, $author);
 
+        // Use pagination to limit the number of results per page
+        $perPage = $request->query('per_page', 10); // Number of items per page (default is 10)
+        $books = $query->paginate($perPage);
 
         return response()->json([
             'status' => 'success',

@@ -17,6 +17,12 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $perPage = request('per_page', 10); // Number of items per page (default is 10)
+
+        $orders = Order::where('user_id', Auth::user()->id) // Assuming 'user_id' is the foreign key for the user
+            ->with('books')
+            ->paginate($perPage);
+
         $orders = Order::where('id', Auth::user()->id)->with('books')->get();
 
         return response()->json([
