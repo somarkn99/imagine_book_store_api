@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchBookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,3 +40,11 @@ Route::controller(AuthController::class)->group(function () {
 |
 */
 Route::apiResource('cart', CartController::class)->middleware('auth:api');
+
+/*
+|--------------------------------------------------------------------------
+| Order Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::apiResource('order', OrderController::class)->middleware('auth:api');
