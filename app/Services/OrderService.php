@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\Book;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderService
 {
@@ -16,7 +16,7 @@ class OrderService
         try {
             $cart = Cart::where('id', $cartId)->with('book')->first();
 
-            if (!$cart) {
+            if (! $cart) {
                 throw new ModelNotFoundException('Cart not found');
             }
 

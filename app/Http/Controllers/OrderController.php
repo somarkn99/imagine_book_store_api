@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Order\CreateNewOrderRequest;
-use App\Models\Book;
-use App\Models\Cart;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
 {

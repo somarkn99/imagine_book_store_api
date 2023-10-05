@@ -3,10 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
@@ -69,7 +67,7 @@ class AuthControllerTest extends TestCase
         $token = auth()->login($user);
 
         // Make a POST request to the logout endpoint with the bearer token
-        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $token])
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])
             ->post('/api/logout');
 
         // Assert that the response has a success status
@@ -89,7 +87,7 @@ class AuthControllerTest extends TestCase
         $token = auth()->login($user);
 
         // Make a POST request to the refresh endpoint with the bearer token
-        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $token])
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])
             ->post('/api/refresh');
 
         // Assert that the response has a success status

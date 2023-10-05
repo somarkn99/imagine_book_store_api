@@ -107,7 +107,7 @@ class BookController extends Controller
             }
 
             // Check if any fields to update
-            if (!empty($fieldsToUpdate)) {
+            if (! empty($fieldsToUpdate)) {
                 $book->update($fieldsToUpdate);
             }
 
@@ -131,6 +131,7 @@ class BookController extends Controller
         try {
             Delete_File($book->cover);
             $book->delete();
+
             return response()->json([], 202);
         } catch (\Exception $e) {
             return response()->json([

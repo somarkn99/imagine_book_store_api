@@ -23,6 +23,7 @@ class CheckQty
                 'message' => trans('general.EmptyStock'),
             ], 201);
         }
+
         return $next($request);
     }
 }

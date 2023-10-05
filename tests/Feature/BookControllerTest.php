@@ -5,9 +5,8 @@ namespace Tests\Feature;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class BookControllerTest extends TestCase
 {
@@ -89,7 +88,6 @@ class BookControllerTest extends TestCase
         $response->assertJson(['status' => 'success', 'message' => 'Data Stored Successfully.']);
     }
 
-
     /**
      * Test the show endpoint.
      */
@@ -99,7 +97,7 @@ class BookControllerTest extends TestCase
         $book = Book::factory()->create();
 
         // Make a GET request to the show endpoint with the book ID
-        $response = $this->get('/api/book/' . $book->id);
+        $response = $this->get('/api/book/'.$book->id);
 
         // Assert that the response has a success status
         $response->assertStatus(200);
