@@ -4,6 +4,8 @@
 
 This is a Laravel project within imagine assignments to build a book store.
 
+Includes the ability to add books and place them in the purchase cart and order them, taking into account the security factors and errors Handling and execution as efficiently as possible.
+
 ## Installation
 
 1. Clone the repository:
@@ -73,3 +75,18 @@ To run tests, run the following command
 ```php
   php artisan test
 ```
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your postman collection
+
+`local`
+
+`token`
+
+In the context of PostMan tests, there exists a code segment responsible for automatically defining the token within the variables
+
+## 🔗 Links
+
+[website](https://www.somar-kesen.com/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/somarkesen/)
